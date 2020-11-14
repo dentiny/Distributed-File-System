@@ -85,5 +85,4 @@ For primary server, several updating operation needs to be completed on secondar
 #### Known bugs
 1. We have handled the cases where primary server or secondary one cannot be reached. But if the client goes down, fd won't be released, thus system resource is leaked.
 2. `symlink` and `link` operations are not yet thread-safe.
-3. `fd .` should show the file system attribute, but my program cannot.
-4. server failover test doesn't pass; currently it can only handle the case when server program is killed, and machine is still alive; it doesn't go well when secondary server is rebooted.
+3. server failover test doesn't pass; currently it can only handle the case when server program is killed, and machine is still alive; it doesn't go well when secondary server is rebooted.
