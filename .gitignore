@@ -1,0 +1,11 @@
+*.o
+*.txt
+tweakfs
+*_client
+*_server
+*.tmp
+*.xls
+*.out
+*.log
+*.vscode
+test/test_concurrent_write

@@ -9,13 +9,21 @@ sudo apt dist-upgrade
 sudo apt install build-essential pkg-config libfuse-dev
 ```
 This repo has provided Makefile, but several places needs to be updated.
+
 `make header` compiles and updates the RPC header and stab files.
+
 `make all` compiles client-side and server-side executable file `tweakfs` and `fuse_rpc_server` respectively.
+
 `make create` generates the rootdir and mountdir automatically, which is the pre-requisite for the program.
+
 `make debug` needs a little update: the last two arguments are IP addresses for primary and secondary server.
+
 `make unmount` unmount the mountdir off rootdir.
+
 `make clean` cleans all generated object files and rootdir, mountdir.
+
 Additionally, on server-side, I did a hard code of secondary server IP address, ``connect_server``which needs to be corrected.
+
 System configuration file `/etc/hosts` should also appended the target server IP. Example:
 ```
 127.0.0.1       localhost
@@ -43,39 +51,22 @@ Naming pattern:
 For primary server, several updating operation needs to be completed on secondary server for replication and availability, say, `write`, `mkdir`, `rmdir`, etc. It first transmit these requests to secondary server, and handle the request whatever the second one succeeds or fails. Other read-only requests will only be handled on primary server.
 4. Primary server goes through the "handle flow" of `opendir` - `readdir` - `releasedir`, `open` - `read` - `release`, so it could use the fd acquired from previous operations, while the secondary server have to rely on full path.
 5. All operations are executed in the order of:
-
-(1) transmit request to primary server, if possible
-
-(2) check rwx validility, if needed
-
-(3) lock the file or directory, if needed
-
-(4) execute the operation
-
-(5) unlock the locked resource
-
-(6) set return value, and send back response back to client via RPC
-
+- transmit request to primary server, if possible
+- check rwx validility, if needed
+- lock the file or directory, if needed
+- execute the operation
+- unlock the locked resource
+- set return value, and send back response back to client via RPC
 6. Server stores all files under the root directory `/DFS`, and create it at the very beginning it doesn't exist. All files are considered visible by all user mounted, but other operations, like updating, removing, reading needs further authentication.
-
 7. About access authentication:
-
-(1) file open is checked by read and write bit
-
-(2) directory listing is checked by read bit, open is checked by execute bit
-
-(3) file creation, rename and deletion need the rwx bits of parent directory, related operations include operation: unlink, mkdir, rmdir, mknod, rename, symlink, link
-
-(4) chown needs root, chmod needs owner, utime needs owner
-
+- file open is checked by read and write bit
+- directory listing is checked by read bit, open is checked by execute bit
+- file creation, rename and deletion need the rwx bits of parent directory, related operations include operation: unlink, mkdir, rmdir, mknod, rename, symlink, link
+- chown needs root, chmod needs owner, utime needs owner
 8. Locking mechanism:
-
-(1) add shared lock for file read and directory read
-
-(2) add exclusive lock for file write
-
-(3) add exclusive lock for directory mutation, eg: rename, unlink, etc
-
+- add shared lock for file read and directory read
+- add exclusive lock for file write
+- add exclusive lock for directory mutation, eg: rename, unlink, etc
 9. About server recovery, we have provided a python script which does cold restoration. Eg, you could simply `sudo python rsync.py localadmin@esa08.egr.duke.edu:/9962309 /`
 
 #### Special handling
