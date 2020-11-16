@@ -80,5 +80,7 @@ For primary server, several updating operation needs to be completed on secondar
 
 #### Reference
 RPC:
+
 http://tharikasblogs.blogspot.com/p/how-to-write-simple-rpc-programme.html
+
 https://docs.oracle.com/cd/E19683-01/816-1435/6m7rrfn9k/index.html
