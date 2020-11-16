@@ -6,7 +6,7 @@ Before compiling the project, make sure the environment is set-up.
 ```
 sudo apt update 
 sudo apt dist-upgrade 
-sudo apt install build-essential pkg-config libfuse-dev
+sudo apt install build-essential pkg-config libfuse-dev rpcbind
 ```
 This repo has provided Makefile, but several places needs to be updated.
 
