@@ -77,3 +77,8 @@ For primary server, several updating operation needs to be completed on secondar
 1. We have handled the cases where primary server or secondary one cannot be reached. But if the client goes down, fd won't be released, thus system resource is leaked.
 2. `symlink` and `link` operations are not yet thread-safe.
 3. server failover test doesn't pass; currently it can only handle the case when server program is killed, and machine is still alive; it doesn't go well when secondary server is rebooted.
+
+#### Reference
+RPC:
+http://tharikasblogs.blogspot.com/p/how-to-write-simple-rpc-programme.html
+https://docs.oracle.com/cd/E19683-01/816-1435/6m7rrfn9k/index.html
